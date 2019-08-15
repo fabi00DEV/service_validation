@@ -1,0 +1,27 @@
+{
+  "name": "notifications",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -r esm main/index.js",
+    "start": "node -r esm main/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^6.4.0",
+    "bitgo": "^7.0.0",
+    "body-parser": "^1.19.0",
+    "crypto-js": "^3.1.9-1",
+    "dotenv": "^8.0.0",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "mongoose": "^5.6.9",
+    "require-dir": "^1.2.0",
+    "twilio": "^3.33.3"
+  }
+}

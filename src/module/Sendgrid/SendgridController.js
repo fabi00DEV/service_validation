@@ -1,9 +1,7 @@
-import SendgridService from './SendgridService';
-const requireDir = require("require-dir");
+import SendgridService from "./SendgridService";
 
-export default class SendgridController{
-  constructor(app, router, routerPrefix){
-    requireDir('./models');
+export default class SendgridController {
+  constructor(app, router, routerPrefix) {
     this.service = new SendgridService();
     app.use(routerPrefix, router);
     this.routes(router);
@@ -11,8 +9,10 @@ export default class SendgridController{
 
   async routes(router) {
     router
-    .post("/send/email-verify", this.service.sendEmailVerification.bind(this.service))
-    .get("/verify-code", this.service.verfifyCode.bind(this.service));
+      .post(
+        "/send/email-verify",
+        this.service.sendEmailVerification.bind(this.service)
+      )
+      .get("/verify-code", this.service.verfifyCode.bind(this.service));
   }
-
 }

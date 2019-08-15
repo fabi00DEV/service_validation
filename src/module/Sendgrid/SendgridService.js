@@ -1,11 +1,11 @@
 import SendgridHelper from "./SendgridHelper";
-import mongoose from "mongoose";
 import SHA256 from "crypto-js/sha256";
+import EmailStatusModel from "./models/EmailStatus";
 
 export default class SendgridService {
   constructor() {
     this.helper = new SendgridHelper();
-    this.EmailStatus = mongoose.model("EmailStatus");
+    this.emailSchema = EmailStatusModel.schema();
   }
 
   async sendEmailVerification(req, res) {
@@ -23,13 +23,13 @@ export default class SendgridService {
       }
     };
 
-    const emailExist = await this.EmailStatus.find({ email: to });
+    const emailExist = await this.emailSchema.find({ email: to });
     if (emailExist.length >= 1) {
       res.json({
         msg: "email already exists"
       });
     } else {
-      const emailVerification = await this.EmailStatus.create({
+      const emailVerification = await this.emailSchema.create({
         email: to,
         status: "pending",
         token: token
@@ -54,7 +54,11 @@ export default class SendgridService {
   async verfifyCode(req, res) {
     try {
       const { token } = req.query;
-      const email = await this.EmailStatus.findOneAndUpdate({ token: token }, { status: "validated" }, { new: true });
+      const email = await this.emailSchema.findOneAndUpdate(
+        { token: token },
+        { status: "validated" },
+        { new: true }
+      );
       if (email) {
         res.json({ email: email, msg: "Successfully verified! " });
       } else {
